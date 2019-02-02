@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 # Jecsan Blanco
 # 2019SP NET-CENTRIC COMPUTIN (CS-3372-01)

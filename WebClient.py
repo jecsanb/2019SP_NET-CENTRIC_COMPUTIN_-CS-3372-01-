@@ -1,6 +1,5 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 import socket
-
 
 def main():
     s = socket.socket(
@@ -8,10 +7,8 @@ def main():
     # now connect to the web server on port 80
     # - the normal http port
     s.connect((socket.gethostname(), 8080))
-    data = s.recv(1024).decode()
-    print("Server: " + str(data))
-    data = "Hi!!!!!!!!!".encode()
-    s.send(data)
+
+    data = "GET  ./page.html HTTP/1.1 Host: www.someschool.edu"
 
 
 if __name__ == '__main__':
