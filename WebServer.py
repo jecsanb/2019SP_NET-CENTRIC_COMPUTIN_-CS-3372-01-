@@ -15,9 +15,15 @@
 #
 # Hint: The socket module from python will be very useful.
 
+import sys
+
 
 def main():
-    print("Hello world!")
+    port = "8080"
+    if len(sys.argv) >= 2:
+        port = (str(sys.argv[1])).strip()
+    # print('Number of arguments:', len(sys.argv), 'arguments.')
+    # print('The port was ', port)
 
 
 if __name__ == '__main__':
