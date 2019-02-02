@@ -8,8 +8,10 @@ def main():
     # now connect to the web server on port 80
     # - the normal http port
     s.connect((socket.gethostname(), 8080))
-    message = "Hello!"
-    s.send(message.encode())
+    data = s.recv(1024).decode()
+    print("Server: " + str(data))
+    data = "Hi!!!!!!!!!".encode()
+    s.send(data)
 
 
 if __name__ == '__main__':

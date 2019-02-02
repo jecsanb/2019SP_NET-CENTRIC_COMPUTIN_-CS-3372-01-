@@ -53,9 +53,10 @@ def main():
         (clientsocket, address) = serversocket.accept()
         # now do something with the clientsocket
         print("Connected to client: " + str(address))
+        data = "Hello " + str(address) + " my name is " + str(socket.gethostname())
+        clientsocket.send(data.encode())
         data = clientsocket.recv(1024).decode()
-        print(str(data))
-        exit()
+        print("Client: " + str(data))
 
 
 if __name__ == '__main__':
