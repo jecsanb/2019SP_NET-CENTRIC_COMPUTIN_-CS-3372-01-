@@ -17,15 +17,13 @@
 
 import sys
 import os
-
-port = "8080"
-path = "./"
+import socket
 
 
-def fetchfile(file_name):
-    for root, dirs, files in os.walk(path):
+def fetchfile(rootpath, filename):
+    for root, dirs, files in os.walk(rootpath):
         for name in files:
-            if name == file_name:
+            if name == filename:
                 print(os.path.join(root, name))
                 return
     print("404")
@@ -37,11 +35,22 @@ def main():
         if not port.isdigit():
             print('Invalid port number.')
             exit()
-
-        # whatever
+    else:
+        port = "8080"
     # print('Number of arguments:', len(sys.argv), 'arguments.')
     # print('The port was ', port)
-    fetchfile("test.ht")
+
+    serversocket = socket.socket(
+        socket.AF_INET, socket.SOCK_STREAM)
+
+    serversocket.bind((socket.gethostname(), int(port)))
+    serversocket.listen(5)
+    while 1:
+        print("Listening on port " + port)
+        # accept connections from outside
+        (clientsocket, address) = serversocket.accept()
+        # now do something with the clientsocket
+        print("Connected to client " + str(address))
 
 
 if __name__ == '__main__':
