@@ -22,6 +22,9 @@ def main():
     port = "8080"
     if len(sys.argv) >= 2:
         port = (str(sys.argv[1])).strip()
+        if not port.isdigit():
+            print('Invalid port number.')
+            exit()
     # print('Number of arguments:', len(sys.argv), 'arguments.')
     # print('The port was ', port)
 
