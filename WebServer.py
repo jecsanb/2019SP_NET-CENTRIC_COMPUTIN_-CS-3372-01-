@@ -30,6 +30,7 @@ def fetchfile(rootpath, filename):
 
 
 def main():
+    # Change port if a command line argument was provided
     if len(sys.argv) >= 2:
         port = (str(sys.argv[1])).strip()
         if not port.isdigit():
@@ -40,17 +41,21 @@ def main():
     # print('Number of arguments:', len(sys.argv), 'arguments.')
     # print('The port was ', port)
 
+    # init socket
     serversocket = socket.socket(
         socket.AF_INET, socket.SOCK_STREAM)
-
     serversocket.bind((socket.gethostname(), int(port)))
     serversocket.listen(5)
+    # process the requests when connected
     while 1:
-        print("Listening on port " + port)
+        print("Listening on port " + port + "...")
         # accept connections from outside
         (clientsocket, address) = serversocket.accept()
         # now do something with the clientsocket
-        print("Connected to client " + str(address))
+        print("Connected to client: " + str(address))
+        data = clientsocket.recv(1024).decode()
+        print(str(data))
+        exit()
 
 
 if __name__ == '__main__':
