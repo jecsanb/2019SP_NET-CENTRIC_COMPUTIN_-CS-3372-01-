@@ -16,17 +16,32 @@
 # Hint: The socket module from python will be very useful.
 
 import sys
+import os
+
+port = "8080"
+path = "./"
+
+
+def fetchfile(file_name):
+    for root, dirs, files in os.walk(path):
+        for name in files:
+            if name == file_name:
+                print(os.path.join(root, name))
+                return
+    print("404")
 
 
 def main():
-    port = "8080"
     if len(sys.argv) >= 2:
         port = (str(sys.argv[1])).strip()
         if not port.isdigit():
             print('Invalid port number.')
             exit()
+
+        # whatever
     # print('Number of arguments:', len(sys.argv), 'arguments.')
     # print('The port was ', port)
+    fetchfile("test.ht")
 
 
 if __name__ == '__main__':
