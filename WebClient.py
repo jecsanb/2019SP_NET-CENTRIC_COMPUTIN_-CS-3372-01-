@@ -1,24 +1,24 @@
 #!/usr/bin/python3
 import socket
-import HttpRequest as HReq
+
+WEB_HOST = "www.wtamu.edu"
 
 
 def main():
-    rl = HReq.RequestLine("GET", "/index.html", "HTTP/1.1")
-    hf = HReq.HeaderField("Host:", "localhost")
-    hl = HReq.HeaderLines(hf)
-    hl.HEADER_LINES.append(HReq.HeaderField("Connection:", "keep-alive"))
-    eb = HReq.EntityBody("")
-    hr = HReq.HttpRequest(rl, hl, eb)
+    request = "GET / HTTP/1.1\r\n" \
+              "Host: " + WEB_HOST + "\r\n" \
+                                    "Accept: text/html\r\n\r\n"
+    print(request)
+
     s = socket.socket(
         socket.AF_INET, socket.SOCK_STREAM)
     # now connect to the web server on port 80
     # - the normal http port
-    s.connect((str(socket.gethostname()), 8080))
-    data = str(hr)
-    s.send(data.encode())
-    data = s.recv(1024).decode()
-    print(str(data))
+    s.connect((WEB_HOST, 80))
+    s.send(request.encode())
+    s.settimeout(1)
+    answer = s.recv(1024)
+    print(str(answer))
 
 
 if __name__ == '__main__':
