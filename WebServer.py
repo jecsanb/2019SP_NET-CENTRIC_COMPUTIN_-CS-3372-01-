@@ -20,13 +20,16 @@ import os
 import socket
 
 
-def fetchfile(rootpath, filename):
-    for root, dirs, files in os.walk(rootpath):
-        for name in files:
-            if name == filename:
-                print(os.path.join(root, name))
-                return
-    print("404")
+def getfilecontents(file):
+    print("File requested: " + file)
+    data = None
+    for filename in os.listdir("./"):
+        if filename == file:
+            print(os.path.join("./", filename))
+            f = open(filename, "+r")
+            data = f.read()
+            break
+    return data
 
 
 def main():
@@ -46,17 +49,31 @@ def main():
         socket.AF_INET, socket.SOCK_STREAM)
     serversocket.bind((socket.gethostname(), int(port)))
     serversocket.listen(5)
+
     # process the requests when connected
-    while 1:
-        print("Listening on port " + port + "...")
-        # accept connections from outside
-        (clientsocket, address) = serversocket.accept()
-        # now do something with the clientsocket
-        print("Connected to client: " + str(address))
-        data = "Hello " + str(address) + " my name is " + str(socket.gethostname())
+    print("Listening on port: " + str(port))
+
+    # accept connections from outside
+    (clientsocket, address) = serversocket.accept()
+
+    # now do something with the clientsocket
+    print("Connected to client: " + str(address))
+
+    data = clientsocket.recv(1024).decode().split(" ")
+    request = data[0]
+
+    # check for GET, server only accpets GET requests
+    if request != 'GET':
+        clientsocket.send("HTTP/1.1 400 Bad Request\r\n".encode())
+        quit()
+    data = getfilecontents(data[1])
+    if len(data):
         clientsocket.send(data.encode())
-        data = clientsocket.recv(1024).decode()
-        print("Client: " + str(data))
+    else:
+        clientsocket.send("HTTP/1.1 404 Not Found\r\n".encode())
+
+    clientsocket.close()
+    serversocket.close()
 
 
 if __name__ == '__main__':

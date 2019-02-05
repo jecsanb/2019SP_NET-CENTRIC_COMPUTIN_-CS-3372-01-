@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 # classes bellow do not do any data validation
+
+
 class RequestLine:
     def __init__(self, method, url, version):
         self.METHOD = method
@@ -73,10 +75,11 @@ class HttpRequest:
 
 
 def main():
-    rl = RequestLine("GET", "/hello.htm", "HTTP/1.1")
-    hf = HeaderField("User-Agent:", "Mozilla/4.0")
+    rl = RequestLine("GET1", "/index.html", "HTTP/1.1")
+    hf = HeaderField("Host:", "hellworld.net")
     hl = HeaderLines(hf)
-    eb = EntityBody("Data is here")
+    hl.HEADER_LINES.append(HeaderField("Connection:", "keep-alive"))
+    eb = EntityBody("")
     hr = HttpRequest(rl, hl, eb)
     print(hr, end="")
 
