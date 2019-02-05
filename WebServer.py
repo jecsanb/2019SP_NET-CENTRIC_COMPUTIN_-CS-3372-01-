@@ -19,13 +19,16 @@ import sys
 import os
 import socket
 
+ROOT_PATH = "./"
+DEFAULT_PORT = "8080"
+
 
 def getfilecontents(file):
-    print("File requested: " + file)
+    # print("File requested: " + file)
     data = None
-    for filename in os.listdir("./"):
-        if filename == file:
-            print(os.path.join("./", filename))
+    for filename in os.listdir(ROOT_PATH):
+        if os.path.isfile(filename) and file == filename:
+            # print(os.path.join("./", filename))
             f = open(filename, "+r")
             data = f.read()
             break
@@ -40,7 +43,7 @@ def main():
             print('Invalid port number.')
             exit()
     else:
-        port = "8080"
+        port = DEFAULT_PORT
     # print('Number of arguments:', len(sys.argv), 'arguments.')
     # print('The port was ', port)
 
@@ -67,10 +70,10 @@ def main():
         clientsocket.send("HTTP/1.1 400 Bad Request\r\n".encode())
         quit()
     data = getfilecontents(data[1])
-    if len(data):
-        clientsocket.send(data.encode())
-    else:
+    if data is None:
         clientsocket.send("HTTP/1.1 404 Not Found\r\n".encode())
+    else:
+        clientsocket.send(data.encode())
 
     clientsocket.close()
     serversocket.close()
