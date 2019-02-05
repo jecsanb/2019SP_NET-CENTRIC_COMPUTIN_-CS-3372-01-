@@ -24,14 +24,15 @@ DEFAULT_PORT = '8080'
 
 
 def getfilecontents(file):
-    print('File requested: ' + file)
+    # print('File requested: ' + file)
     data = None
     for filename in os.listdir(ROOT_PATH):
         print(str(filename))
         if os.path.isfile(filename) and file == filename:
-            print(os.path.join('./', filename))
+            # print(os.path.join('./', filename))
             f = open(filename, 'r')
             data = f.read()
+            f.close()
             break
     return data
 
@@ -53,8 +54,8 @@ def main():
         socket.AF_INET, socket.SOCK_STREAM)
     serversocket.bind((socket.gethostname(), int(port)))
     serversocket.listen(5)
-
-    while 1:
+    requeststoaccept = 1
+    while requeststoaccept:
         # process the requests when connected
         print('Listening on port: ' + str(port))
 
@@ -67,7 +68,7 @@ def main():
         data = clientsocket.recv(1024).decode().split(' ')
         request = data[0]
 
-        # check for GET, server only accpets GET requests
+        # check for GET, server only accepts GET requests
         if request != 'GET':
             reply = 'HTTP/1.1 400 Bad Request\r\n'
         else:
@@ -78,11 +79,11 @@ def main():
                 reply = 'http/1.1 200 OK\r\n'
         date = 'Date: ' + str(datetime.datetime.now()) + '\r\n'
         reply += date + str(data) + "\r\n"
-        print(reply)
+        # print(reply)
         clientsocket.send(reply.encode())
+        requeststoaccept += -1
 
-    # clientsocket.close()
-    # serversocket.close()
+    serversocket.close()
 
 
 if __name__ == '__main__':
