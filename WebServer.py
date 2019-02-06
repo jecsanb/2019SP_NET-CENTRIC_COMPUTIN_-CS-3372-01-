@@ -14,27 +14,27 @@
 # 4 The program will terminate after responding to the first request
 #
 # Hint: The socket module from python will be very useful.
-import datetime
 import sys
-import os
 import socket
+import os
 
 ROOT_PATH = './'
 DEFAULT_PORT = '8080'
 
+# check for GET, server only accepts GET requests
+HTTP_200 = 'http/1.1 200 OK\r\n'
+HTTP_404 = 'HTTP/1.1 404 File Not Found\r\n'
+HTTP_500 = 'HTTP/1.1 500 Internal Server Error\r\n'
 
-def getfilecontents(file):
-    # print('File requested: ' + file)
-    data = None
-    for filename in os.listdir(ROOT_PATH):
-        print(str(filename))
-        if os.path.isfile(filename) and file == filename:
-            # print(os.path.join('./', filename))
-            f = open(filename, 'r')
-            data = f.read()
-            f.close()
-            break
-    return data
+NOTFOUND_HTML = '<!doctype html><head> <meta charset="UTF-8">' \
+                '<title>Sorry Not Found</title> </head> <body> <h1>404 File ' \
+                'Not Found </h1> </body> </html>'
+INTERNAL_ERR_HTML = '<!doctype html><head> <meta charset="UTF-8">' \
+                    '<title>Error</title> </head> <body> <h1>Server Error,' \
+                    ' Checking Hamsters </h1> </body> </html>'
+BLK_LINE = '\r\n'
+HDR_LINES = 'Connection: close\r\n' \
+            'Content-Type: text/html\r\n'
 
 
 def main():
@@ -46,16 +46,13 @@ def main():
             exit()
     else:
         port = DEFAULT_PORT
-    # print('Number of arguments:', len(sys.argv), 'arguments.')
-    # print('The port was ', port)
 
-    # init socket
     serversocket = socket.socket(
         socket.AF_INET, socket.SOCK_STREAM)
-    serversocket.bind((socket.gethostname(), int(port)))
+    serversocket.bind(("localhost", int(port)))
     serversocket.listen(5)
-    requeststoaccept = 1
-    while requeststoaccept:
+
+    while 1:
         # process the requests when connected
         print('Listening on port: ' + str(port))
 
@@ -65,23 +62,21 @@ def main():
         # now do something with the clientsocket
         print('Connected to client: ' + str(address))
 
-        data = clientsocket.recv(1024).decode().split(' ')
-        request = data[0]
+        request = clientsocket.recv(1024).decode()
+        filename = ROOT_PATH + request.split(' ')[1]
+        reply = HTTP_404
+        data = NOTFOUND_HTML
 
-        # check for GET, server only accepts GET requests
-        if request != 'GET':
-            reply = 'HTTP/1.1 400 Bad Request\r\n'
-        else:
-            data = getfilecontents(data[1])
-            if data is None:
-                reply = 'HTTP/1.1 404 Not Found\r\n'
-            else:
-                reply = 'http/1.1 200 OK\r\n'
-        date = 'Date: ' + str(datetime.datetime.now()) + '\r\n'
-        reply += date + str(data) + "\r\n"
+        if os.path.isfile(filename):
+            data = open(filename).read()
+            reply = HTTP_200
+
+        reply += HDR_LINES + BLK_LINE + data
+        print("Reply:\n" + reply)
         # print(reply)
         clientsocket.send(reply.encode())
-        requeststoaccept += -1
+        clientsocket.close()
+        break
 
     serversocket.close()
 
