@@ -34,6 +34,13 @@ def main():
     else:
         port = DEFAULT_PORT
 
+    print("Welcome to JB'S SMTP client.")
+    destserv = input("Enter destination server:")
+    senderemail = input("Enter sender email: ")
+    recpientemail = input("Enter recipient email: ")
+    subject = input("Enter Subject: ")
+    body = input("Enter body of email:\n")
+
     server = "smtp.gmail.com"
     s = socket.socket(
         socket.AF_INET, socket.SOCK_STREAM)
