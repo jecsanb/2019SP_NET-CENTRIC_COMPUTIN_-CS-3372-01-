@@ -20,7 +20,7 @@ import sys
 import socket
 import os
 
-DEFAULT_PORT = '8080'
+DEFAULT_PORT = '25'
 
 
 def main():
@@ -34,7 +34,15 @@ def main():
     else:
         port = DEFAULT_PORT
 
-    print("Client stopped.")
+    server = "smtp.gmail.com"
+    s = socket.socket(
+        socket.AF_INET, socket.SOCK_STREAM)
+    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
+    s.connect((server, int(port)))
+    data = s.recv(1024).decode()
+    print(str(data))
+
 
 if __name__ == '__main__':
     main()
