@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="28eea07c-51aa-4af2-a2c2-d092f38fa215" name="Default Changelist" comment="Updated server to meet specifications and be more clean.">
-      <change beforePath="$PROJECT_DIR$/HttpRequest.py" beforeDir="false" afterPath="$PROJECT_DIR$/HttpRequest.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebClient.py" beforeDir="false" afterPath="$PROJECT_DIR$/WebClient.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebServer.py" beforeDir="false" afterPath="$PROJECT_DIR$/WebServer.py" afterDir="false" />
-    </list>
+    <list default="true" id="28eea07c-51aa-4af2-a2c2-d092f38fa215" name="Default Changelist" comment="Updated server to meet specifications and be more clean." />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,29 +14,7 @@
     <SUITE FILE_PATH="coverage/Program$WebServer.coverage" NAME="WebServer Coverage Results" MODIFIED="1549504893026" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/WebClient.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="286">
-              <caret line="13" column="22" lean-forward="true" selection-start-line="13" selection-start-column="22" selection-end-line="13" selection-end-column="22" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/WebServer.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="13">
-              <caret line="60" column="23" selection-start-line="60" selection-start-column="23" selection-end-line="60" selection-end-column="23" />
-              <folding>
-                <element signature="e#574#584#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -76,21 +50,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="Program" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Program" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Program" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
+      <pane id="ProjectPane" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -200,7 +160,7 @@
       <workItem from="1549130846341" duration="13527000" />
       <workItem from="1549162731285" duration="9112000" />
       <workItem from="1549382073431" duration="164000" />
-      <workItem from="1549383649806" duration="19651000" />
+      <workItem from="1549383649806" duration="20167000" />
     </task>
     <task id="LOCAL-00001" summary="Added to git, start of project">
       <created>1549131412047</created>
@@ -325,7 +285,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="42577000" />
+    <option name="totallyTimeSpent" value="43093000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -462,8 +422,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/WebServer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="13">
-          <caret line="60" column="23" selection-start-line="60" selection-start-column="23" selection-end-line="60" selection-end-column="23" />
+        <state relative-caret-position="145">
+          <caret line="66" column="20" lean-forward="true" selection-start-line="66" selection-start-column="20" selection-end-line="66" selection-end-column="20" />
           <folding>
             <element signature="e#574#584#0" expanded="true" />
           </folding>
