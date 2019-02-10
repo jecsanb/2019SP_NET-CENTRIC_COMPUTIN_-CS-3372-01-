@@ -71,12 +71,11 @@ def main():
         s.send(bye.encode())
 
     else:
-        print(reply)
+        print("s: %s" % reply)
 
     s.close()
+    print("client stopping")
 
-
-#
 
 if __name__ == '__main__':
     main()
