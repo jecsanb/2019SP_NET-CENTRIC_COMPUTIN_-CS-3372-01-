@@ -1,4 +1,5 @@
-#!/usr/local/bin/python3
+#!/usr/bin/env python3
+
 
 # Hint: The socket module from python will be very useful.
 # In this assignment you will develop a program that will send an email message using SMTP using Python
@@ -14,12 +15,15 @@
 # 3 Your program will display the result from the destination server. (Typically the last message
 # from the server such as queued for delivery)
 # 4 The program will exit after the email has been delivered.
+
+# Note from programmer: this does almost no error checking for simplicity
 import sys
 import socket
 
 DEFAULT_MAIL_SERVER = 'localhost'
 DEFAULT_PORT = '25'
 
+# expended repays
 GOOD_REPLY = ['220', '250', '354', '221']
 
 
@@ -34,6 +38,7 @@ def main():
     else:
         port = DEFAULT_PORT
 
+    # commands and their format
     hello = "HELO %s\r\n" % str(socket.gethostname())
     sender = "MAIL FROM: <%s>\r\n"
     recipient = "RCPT TO: <%s>\r\n"
@@ -42,6 +47,7 @@ def main():
     body = "%s\r\n"
     bye = "QUIT\r\n"
 
+    # read and inject the need input in to commands
     server = input("Enter destination server: ").strip()
     sender = sender % input("From: ").strip()
     recipient = recipient % input("To: ").strip()
@@ -49,8 +55,10 @@ def main():
     body = body % input("Body:\n").strip()
     msg = sender[5:] + recipient[5:] + subject + body + "\r\n.\r\n"
 
+    # sequence the commands
     commands = [hello, sender, recipient, data, msg, bye]
 
+    # init socket communication
     s = socket.socket(
         socket.AF_INET, socket.SOCK_STREAM)
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -79,29 +87,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-# S: 220 smtp.example.com ESMTP Postfix
-# C: HELO relay.example.com
-# S: 250 smtp.example.com, I am glad to meet you
-# C: MAIL FROM:<bob@example.com>
-# S: 250 Ok
-# C: RCPT TO:<alice@example.com>
-# S: 250 Ok
-# C: RCPT TO:<theboss@example.com>
-# S: 250 Ok
-# C: DATA
-# S: 354 End data with <CR><LF>.<CR><LF>
-# C: From: "Bob Example" <bob@example.com>
-# C: To: Alice Example <alice@example.com>
-# C: Cc: theboss@example.com
-# C: Date: Tue, 15 January 2008 16:02:43 -0500
-# C: Subject: Test message
-# C:
-# C: Hello Alice.
-# C: This is a test message with 5 header fields and 4 lines in the message body.
-# C: Your friend,
-# C: Bob
-# C: .
-# S: 250 Ok: queued as 12345
-# C: QUIT
-# S: 221 Bye
-# {The server closes the connection}
