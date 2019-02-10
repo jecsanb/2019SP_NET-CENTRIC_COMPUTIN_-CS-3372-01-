@@ -1,7 +1,5 @@
-#!/usr/bin/python
+#!/usr/local/bin/python3
 
-# Jecsan Blanco
-# 2019SP NET-CENTRIC COMPUTIN (CS-3372-01)
 # Hint: The socket module from python will be very useful.
 # In this assignment you will develop a program that will send an email message using SMTP using Python
 # with the following requirements:
@@ -18,9 +16,11 @@
 # 4 The program will exit after the email has been delivered.
 import sys
 import socket
-import os
 
+DEFAULT_MAIL_SERVER = 'localhost'
 DEFAULT_PORT = '25'
+
+GOOD_REPLY = ['220', '250', '354', '221']
 
 
 def main():
@@ -34,22 +34,75 @@ def main():
     else:
         port = DEFAULT_PORT
 
-    print("Welcome to JB'S SMTP client.")
-    destserv = input("Enter destination server:")
-    senderemail = input("Enter sender email: ")
-    recpientemail = input("Enter recipient email: ")
-    subject = input("Enter Subject: ")
-    body = input("Enter body of email:\n")
+    hello = "HELO %s\r\n" % str(socket.gethostname())
+    sender = "MAIL FROM: <%s>\r\n"
+    recipient = "RCPT TO: <%s>\r\n"
+    subject = "Subject: %s\r\n"
+    data = "DATA\r\n"
+    body = "%s\r\n"
+    bye = "QUIT\r\n"
 
-    server = "smtp.gmail.com"
+    server = input("Enter destination server: ").strip()
+    sender = sender % input("From: ").strip()
+    recipient = recipient % input("To: ").strip()
+    subject = subject % input("Subject: ").strip()
+    body = body % input("Body:\n").strip()
+    msg = sender[5:] + recipient[5:] + subject + body + "\r\n.\r\n"
+
+    commands = [hello, sender, recipient, data, msg, bye]
+
     s = socket.socket(
         socket.AF_INET, socket.SOCK_STREAM)
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-
     s.connect((server, int(port)))
-    data = s.recv(1024).decode()
-    print(str(data))
+    reply = s.recv(1024).decode().split()
+    error = False
+    for command in commands:
+        print("s: %s" % reply)
+        if reply[0] not in GOOD_REPLY:
+            error = True
+            break
+        print("c: %s" % command)
+        s.send(command.encode())
+        reply = s.recv(1024).decode().split()
 
+    if error is True:
+        print("Error Occurred: %s\n" % reply)
+        s.send(bye.encode())
+
+    else:
+        print(reply)
+
+    s.close()
+
+
+#
 
 if __name__ == '__main__':
     main()
+# S: 220 smtp.example.com ESMTP Postfix
+# C: HELO relay.example.com
+# S: 250 smtp.example.com, I am glad to meet you
+# C: MAIL FROM:<bob@example.com>
+# S: 250 Ok
+# C: RCPT TO:<alice@example.com>
+# S: 250 Ok
+# C: RCPT TO:<theboss@example.com>
+# S: 250 Ok
+# C: DATA
+# S: 354 End data with <CR><LF>.<CR><LF>
+# C: From: "Bob Example" <bob@example.com>
+# C: To: Alice Example <alice@example.com>
+# C: Cc: theboss@example.com
+# C: Date: Tue, 15 January 2008 16:02:43 -0500
+# C: Subject: Test message
+# C:
+# C: Hello Alice.
+# C: This is a test message with 5 header fields and 4 lines in the message body.
+# C: Your friend,
+# C: Bob
+# C: .
+# S: 250 Ok: queued as 12345
+# C: QUIT
+# S: 221 Bye
+# {The server closes the connection}
