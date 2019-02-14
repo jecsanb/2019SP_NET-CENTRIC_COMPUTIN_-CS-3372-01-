@@ -21,10 +21,8 @@ import sys
 import socket
 
 DEFAULT_MAIL_SERVER = 'localhost'
-DEFAULT_PORT = '25'
-
-# expended repays
-GOOD_REPLY = ['220', '250', '354', '221']
+DEFAULT_PORT = 25
+DEFAULT_TIMEOUT = 10
 
 
 def main():
@@ -35,6 +33,7 @@ def main():
         if not port.isdigit():
             print('Invalid port number.')
             exit()
+        port = int(port)
     else:
         port = DEFAULT_PORT
 
@@ -62,24 +61,26 @@ def main():
     s = socket.socket(
         socket.AF_INET, socket.SOCK_STREAM)
     s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    s.connect((server, int(port)))
-    reply = s.recv(1024).decode().split()
-    error = False
-    for command in commands:
-        print("s: %s" % reply)
-        if reply[0] not in GOOD_REPLY:
-            error = True
-            break
-        print("c: %s" % command)
-        s.send(command.encode())
+    s.settimeout(DEFAULT_TIMEOUT)
+
+    reply = None
+    try:
+        s.connect((server, port))
         reply = s.recv(1024).decode().split()
 
-    if error is True:
-        print("Error Occurred: %s\n" % reply)
-        s.send(bye.encode())
+        print("Connected to %s on port %s" % (server, DEFAULT_PORT))
+        for command in commands:
+            print("s: %s" % reply)
+            print("c: %s" % command)
+            s.send(command.encode())
+            reply = s.recv(1024).decode().split()
 
-    else:
-        print("s: %s" % reply)
+    except socket.timeout:
+        print("Connection timed out. Try again later.")
+        s.close()
+        exit()
+
+    print("s: %s" % reply)
 
     s.close()
     print("client stopping")
