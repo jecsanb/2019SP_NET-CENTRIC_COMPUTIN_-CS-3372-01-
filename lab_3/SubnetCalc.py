@@ -13,6 +13,32 @@ def isvalidipv4(address):
 def isvalidmask(mask):
     return True if 1 <= int(mask) <= 32 else False
 
+
+def bintoip4(binary):
+    if len(binary) != 32:
+        print("Error, invalid binary length")
+        return None
+    n = 8
+    octets = [binary[i:i + n] for i in range(0, len(binary), n)]
+    ipv4_str = ""
+    for octet in octets:
+        ipv4_str += str(int(octet, 2)) + "."
+    return ipv4_str[0:len(ipv4_str) - 1]
+
+
+
+
+def ip4tobin(address):
+    if not isvalidipv4(address):
+        print("Error, invalid ip")
+        return None
+    octets = address.split(".")
+    bin_str = ""
+    for octet in octets:
+        bin_str += format(int(octet), '08b')
+    return bin_str
+
+
 def main():
     ipv4_octets = []
     while True:
