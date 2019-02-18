@@ -11,7 +11,7 @@ def isvalidipv4(address):
 
 
 def isvalidmask(mask):
-    return True if 1 <= int(mask) <= 32 else False
+    return str(mask).isdigit() and True if 1 <= int(mask) <= 32 else False
 
 
 def bintoip4(binary):
@@ -26,8 +26,6 @@ def bintoip4(binary):
     return ipv4_str[0:len(ipv4_str) - 1]
 
 
-
-
 def ip4tobin(address):
     if not isvalidipv4(address):
         print("Error, invalid ip")
@@ -40,16 +38,16 @@ def ip4tobin(address):
 
 
 def main():
-    ipv4_octets = []
     while True:
         # read needed input
         ipv4 = input('Enter ipv4 address: ').strip()
         mask = input('Enter mask bits: ').strip()
-        if isvalidipv4(ipv4) and isvalidmask(mask):
-            ipv4_octets = ipv4.split('.')
-            break
-        else:
+        if not isvalidipv4(ipv4) and not isvalidmask(mask):
             print("Invalid address or mask")
+        else:
+            break
+    mask = int(mask)
+    subnet_mask = "1"*mask + "0"*(32-mask)
 
     # a. Subnet or Network ID (first IP address in the network range)
     print("Network Subnet: ")
