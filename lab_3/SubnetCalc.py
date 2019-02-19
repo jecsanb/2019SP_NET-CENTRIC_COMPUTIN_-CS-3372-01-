@@ -20,10 +20,8 @@ def bintoip4(binary):
         return None
     n = 8
     octets = [binary[i:i + n] for i in range(0, len(binary), n)]
-    ipv4_str = ""
-    for octet in octets:
-        ipv4_str += str(int(octet, 2)) + "."
-    return ipv4_str[0:len(ipv4_str) - 1]
+    octets[:] = [str(int(i, 2)) for i in octets]
+    return '.'.join(octets)
 
 
 def ip4tobin(address):
@@ -31,10 +29,8 @@ def ip4tobin(address):
         print("Error, invalid ip")
         return None
     octets = address.split(".")
-    bin_str = ""
-    for octet in octets:
-        bin_str += format(int(octet), '08b')
-    return bin_str
+    octets[:] = [format(int(i), '08b') for i in octets]
+    return ''.join(octets)
 
 
 def main():
