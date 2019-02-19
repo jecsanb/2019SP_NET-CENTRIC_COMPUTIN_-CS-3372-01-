@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-def isvalidipv4(address):
+__author__ = "Jecsan Blanco"
+
+
+def is_valid_ip4(address):
+    """Check if address is a valid ipv4 address"""
     valid = False
     candidate = str(address).split('.')
     if len(candidate) == 4:
@@ -10,24 +14,28 @@ def isvalidipv4(address):
     return valid
 
 
-def isvalidmask(mask):
-    return str(mask).isdigit() and True if 1 <= int(mask) <= 32 else False
+def is_valid_mask(mask):
+    return str(mask).isdigit() and (True if 1 <= int(mask) <= 32 else False)
 
 
-def bintoip4(binary):
+def bin_to_ip4(binary):
+    """ Converts a 32 bit binary string in to an ipv4 formatted address"""
     if len(binary) != 32:
         print("Error, invalid binary length")
         return None
     n = 8
+    # break in to four octets and convert back to decimal
     octets = [binary[i:i + n] for i in range(0, len(binary), n)]
     octets[:] = [str(int(i, 2)) for i in octets]
     return '.'.join(octets)
 
 
-def ip4tobin(address):
-    if not isvalidipv4(address):
+def ip4_to_bin(address):
+    """ Converts a ipv4 formatted address in to a 32 bit binary string """
+    if not is_valid_ip4(address):
         print("Error, invalid ip")
         return None
+    # break in to 4 decimals and convert to 8 bit binary
     octets = address.split(".")
     octets[:] = [format(int(i), '08b') for i in octets]
     return ''.join(octets)
@@ -38,12 +46,12 @@ def main():
         # read needed input
         ipv4 = input('Enter ipv4 address: ').strip()
         mask = input('Enter mask bits: ').strip()
-        if not isvalidipv4(ipv4) and not isvalidmask(mask):
+        if not is_valid_ip4(ipv4) and not is_valid_mask(mask):
             print("Invalid address or mask")
         else:
             break
     mask = int(mask)
-    subnet_mask = "1"*mask + "0"*(32-mask)
+    subnet_mask = "1" * mask + "0" * (32 - mask)
 
     # a. Subnet or Network ID (first IP address in the network range)
     print("Network Subnet: ")
