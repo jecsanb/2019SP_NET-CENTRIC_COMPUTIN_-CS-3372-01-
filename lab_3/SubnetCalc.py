@@ -64,7 +64,7 @@ def main():
     # c. Subnet Mask in decimal form (i.e. 255.255.255.192)
     print('Subnet Mask: %s' % bin_to_ip4(subnetmask))
     # d. Maximum number of hosts allowed in the network
-    print('Hosts: %s' % str(network_mask-2))
+    print('Hosts: %s' % str(1 if mask == 32 else network_mask - 1))
 
 
 if __name__ == '__main__':
