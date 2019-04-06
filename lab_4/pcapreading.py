@@ -28,9 +28,10 @@ def main():
     print("Dest  MAC:   \t%s" % packet.dst)
 
     # build reply packet
-    reply = Ether(src='00:0c:29:c5:33:72', dst=packet.src, type=2054) \
+    reply_src = '00:0c:29:c5:33:72'
+    reply = Ether(src=reply_src, dst=packet.src, type=2054) \
             / ARP(hwdst=packet.src, ptype=2048, hwtype=1, psrc=packet[ARP].pdst, hwlen=6, plen=4,
-                  pdst=packet[ARP].psrc, hwsrc='00:0c:29:c5:33:72', op=2)
+                  pdst=packet[ARP].psrc, hwsrc=reply_src, op=2)
 
     # print(reply.summary())
     # print(reply.show())
