@@ -33,6 +33,7 @@ def main():
             / ARP(hwdst=packet.src, ptype=2048, hwtype=1, psrc=packet[ARP].pdst, hwlen=6, plen=4,
                   pdst=packet[ARP].psrc, hwsrc=reply_src, op=2)
 
+    send(reply)
     # print(reply.summary())
     # print(reply.show())
 
