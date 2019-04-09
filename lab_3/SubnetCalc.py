@@ -10,7 +10,7 @@ def is_valid_ip4(address):
     candidate = str(address).split('.')
     if len(candidate) == 4:
         for octet in candidate:
-            valid = True if (octet.isalnum() and 0 <= int(octet) <= 255) else False
+            valid = True if (octet.isnumeric() and 0 <= int(octet) <= 255) else False
             if not valid:
                 break
     return valid
