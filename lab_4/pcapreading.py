@@ -29,11 +29,9 @@ def main():
 
     # build reply packet
     reply_src = '00:0c:29:c5:33:72'
-    reply = Ether(src=reply_src, dst=packet.src, type=2054) \
-            / ARP(hwdst=packet.src, ptype=2048, hwtype=1, psrc=packet[ARP].pdst, hwlen=6, plen=4,
-                  pdst=packet[ARP].psrc, hwsrc=reply_src, op=2)
-
-    send(reply)
+    reply = Ether(src=reply_src, dst=packet.src, type=2054)/ARP(hwdst=packet.src, ptype=2048, hwtype=1, psrc=packet[ARP].pdst, hwlen=6, plen=4,pdst=packet[ARP].psrc, hwsrc=reply_src, op=2)
+    sendp(reply)
+    #print(reply.command())
     # print(reply.summary())
     # print(reply.show())
 
